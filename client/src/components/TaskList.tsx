@@ -11,10 +11,12 @@ const TaskList = () => {
 
     const taskfromStore = useSelector((state : RootStore) => state.getTasks)
     const { tasks} = taskfromStore
+    const addTaskFromStore = useSelector((state : RootStore) => state.addTasks)
+
 
     useEffect(()=> {
         dispatch(getTasks())
-    },[dispatch])
+    },[dispatch, addTaskFromStore])
 
     return (
         <Container className='my-3'>

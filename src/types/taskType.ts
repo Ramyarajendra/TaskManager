@@ -3,7 +3,7 @@ import {Document} from 'mongoose'
 export interface ITask extends Document {
     name: string,
     description: string,
-    status: boolean
+    status?: boolean
 }
 
 // To access environment variables

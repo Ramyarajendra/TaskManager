@@ -8,10 +8,10 @@ export const ADD_TASKS_FAIL = 'ADD_TASKS_FAIL'
 
 
 export interface ITask {
-    _id: string
+    _id?: string
     name: string
     description: string
-    status: boolean
+    status?: boolean
     createdAt?: string
     updatedAt?: string
   }
