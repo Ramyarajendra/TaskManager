@@ -12,4 +12,6 @@ const middleware = [thunk]
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(...middleware)))
 
+export type RootStore = ReturnType<typeof reducer>
+
 export default store
