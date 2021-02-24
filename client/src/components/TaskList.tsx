@@ -11,7 +11,7 @@ const TaskList = () => {
 
     const taskfromStore = useSelector((state : RootStore) => state.getTasks)
     const { tasks} = taskfromStore
-    const addTaskFromStore = useSelector((state : RootStore) => state.addTasks)
+    const addTaskFromStore = useSelector((state : RootStore) => state.addTask)
 
     const [show, setShow] = useState(false);
     

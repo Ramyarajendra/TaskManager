@@ -6,6 +6,9 @@ export const ADD_TASKS_REQUEST = 'ADD_TASKS_REQUEST'
 export const ADD_TASKS_SUCCESS = 'ADD_TASKS_SUCCESS'
 export const ADD_TASKS_FAIL = 'ADD_TASKS_FAIL'
 
+export const UPDATE_TASKS_REQUEST = 'UPDATE_TASKS_REQUEST'
+export const UPDATE_TASKS_SUCCESS = 'UPDATE_TASKS_SUCCESS'
+export const UPDATE_TASKS_FAIL = 'UPDATE_TASKS_FAIL'
 
 export interface ITask {
     _id?: string
@@ -18,11 +21,11 @@ export interface ITask {
   
 
 export interface TaskRequest {
-    type: typeof GET_TASKS_REQUEST | typeof ADD_TASKS_REQUEST
+    type: typeof GET_TASKS_REQUEST | typeof ADD_TASKS_REQUEST | typeof UPDATE_TASKS_REQUEST
 }
 
 export interface TaskFail {
-    type: typeof GET_TASKS_FAIL | typeof ADD_TASKS_FAIL,
+    type: typeof GET_TASKS_FAIL | typeof ADD_TASKS_FAIL | typeof UPDATE_TASKS_FAIL,
     payload: any
 }
 
@@ -45,3 +48,12 @@ export interface AddTaskSuccess {
 export type AddTaskDispatch = TaskFail | TaskRequest | AddTaskSuccess
 
 
+//UpdateTask success & Dispatch
+
+export interface updateTaskSuccess {
+    type: typeof UPDATE_TASKS_SUCCESS,
+    payload: ITask
+}
+
+
+export type UpdateTaskDispatch = TaskFail | TaskRequest | updateTaskSuccess
