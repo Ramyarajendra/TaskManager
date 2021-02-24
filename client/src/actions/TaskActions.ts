@@ -44,7 +44,7 @@ export const updateTasks = (task: ITask) => async (dispatch: Dispatch<UpdateTask
         dispatch({
             type: UPDATE_TASKS_REQUEST
         })
-        const {data} = await axios.post(`/api/tasks/${task._id}`, task)
+        const {data} = await axios.put(`/api/tasks/${task._id}`, task)
         dispatch({
             type: UPDATE_TASKS_SUCCESS,
             payload: data

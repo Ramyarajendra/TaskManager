@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Badge, Button, Card, Container, Form, Modal } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { getTasks } from '../actions/TaskActions'
+import { getTasks, updateTasks } from '../actions/TaskActions'
 import { ITask } from '../actions/TaskActionTypes'
 import { RootStore } from '../store'
 import AddTask from './AddTask'
@@ -12,6 +12,9 @@ const TaskList = () => {
     const taskfromStore = useSelector((state : RootStore) => state.getTasks)
     const { tasks} = taskfromStore
     const addTaskFromStore = useSelector((state : RootStore) => state.addTask)
+
+    const updateTaskFromStore = useSelector((state : RootStore) => state.updateTask)
+
 
     const [show, setShow] = useState(false);
     
@@ -28,12 +31,17 @@ const TaskList = () => {
     }
   
     const onUpdate = () => {
-      console.log('update')
+      dispatch(updateTasks({
+        _id : editId,
+        name: editName,
+        description: editDesc
+      }))
+      handleClose()
     }
 
     useEffect(()=> {
         dispatch(getTasks())
-    },[dispatch, addTaskFromStore])
+    },[dispatch, addTaskFromStore, updateTaskFromStore])
 
     return (
         <Container className='my-3'>
