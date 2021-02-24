@@ -38,6 +38,14 @@ const TaskList = () => {
       }))
       handleClose()
     }
+    const onStatusUpdate = (task: ITask) => {
+      if(window.confirm("Sure?")){
+        dispatch(updateTasks({
+        ...task,
+        status: true
+        }))
+      }
+    }
 
     useEffect(()=> {
         dispatch(getTasks())
@@ -49,7 +57,12 @@ const TaskList = () => {
             {(tasks as Array<ITask>).map((task: ITask)=> (
                 <Card className='mb-3'>
                 <Card.Body>
-                  <Card.Title className='text-warning'>{task.name}</Card.Title>
+                  <Card.Title className='text-warning'>
+                    <div className='d-flex justify-content-between align-items-center'>
+                      {task.name}
+                      <Button><i className='fa fa-trash fa-lg'></i></Button>
+                    </div>
+                  </Card.Title>
                   <Card.Subtitle className="mb-2 text-muted">Status: {task.status ? "Completed" : "In Progress"}</Card.Subtitle>
                   <Card.Text>
                     {task.description}
@@ -60,7 +73,7 @@ const TaskList = () => {
                         <Badge pill className='p-2' variant='success'>Completed</Badge>
                       </div>
                     :
-                      <Button variant='outline-success' >Mark as Complete</Button> 
+                      <Button variant='outline-success' onClick={() => onStatusUpdate(task)}>Mark as Complete</Button> 
                     }
                     
                     <Button variant='outline-success' onClick={() => handleShow(task)}>Edit</Button>
