@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Badge, Button, Card, Container, Form, Modal } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { getTasks, updateTasks } from '../actions/TaskActions'
+import { deleteTasks, getTasks, updateTasks } from '../actions/TaskActions'
 import { ITask } from '../actions/TaskActionTypes'
 import { RootStore } from '../store'
 import AddTask from './AddTask'
@@ -14,6 +14,8 @@ const TaskList = () => {
     const addTaskFromStore = useSelector((state : RootStore) => state.addTask)
 
     const updateTaskFromStore = useSelector((state : RootStore) => state.updateTask)
+    const deleteTaskFromStore = useSelector((state : RootStore) => state.deleteTask)
+    const { success} = deleteTaskFromStore
 
 
     const [show, setShow] = useState(false);
@@ -46,10 +48,16 @@ const TaskList = () => {
         }))
       }
     }
+    const onDelete = (id: any) => {
+      if(window.confirm("Do you want to delete?")){
+        dispatch(deleteTasks(id))
+      }
+    }
+
 
     useEffect(()=> {
         dispatch(getTasks())
-    },[dispatch, addTaskFromStore, updateTaskFromStore])
+    },[dispatch, addTaskFromStore, updateTaskFromStore, success])
 
     return (
         <Container className='my-3'>
@@ -60,7 +68,7 @@ const TaskList = () => {
                   <Card.Title className='text-warning'>
                     <div className='d-flex justify-content-between align-items-center'>
                       {task.name}
-                      <Button><i className='fa fa-trash fa-lg'></i></Button>
+                      <Button onClick={() => onDelete(task._id)}><i className='fa fa-trash fa-lg'></i></Button>
                     </div>
                   </Card.Title>
                   <Card.Subtitle className="mb-2 text-muted">Status: {task.status ? "Completed" : "In Progress"}</Card.Subtitle>
@@ -76,7 +84,7 @@ const TaskList = () => {
                       <Button variant='outline-success' onClick={() => onStatusUpdate(task)}>Mark as Complete</Button> 
                     }
                     
-                    <Button variant='outline-success' onClick={() => handleShow(task)}>Edit</Button>
+                    {!task.status && <Button variant='outline-success' onClick={() => handleShow(task)}>Edit</Button>}
                   </div>
                 </Card.Body>
               </Card>

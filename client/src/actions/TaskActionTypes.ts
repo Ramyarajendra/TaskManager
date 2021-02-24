@@ -10,6 +10,9 @@ export const UPDATE_TASKS_REQUEST = 'UPDATE_TASKS_REQUEST'
 export const UPDATE_TASKS_SUCCESS = 'UPDATE_TASKS_SUCCESS'
 export const UPDATE_TASKS_FAIL = 'UPDATE_TASKS_FAIL'
 
+export const DELETE_TASKS_REQUEST = 'DELETE_TASKS_REQUEST'
+export const DELETE_TASKS_SUCCESS = 'DELETE_TASKS_SUCCESS'
+export const DELETE_TASKS_FAIL = 'DELETE_TASKS_FAIL'
 export interface ITask {
     _id?: string
     name: string
@@ -21,11 +24,11 @@ export interface ITask {
   
 
 export interface TaskRequest {
-    type: typeof GET_TASKS_REQUEST | typeof ADD_TASKS_REQUEST | typeof UPDATE_TASKS_REQUEST
+    type: typeof GET_TASKS_REQUEST | typeof ADD_TASKS_REQUEST | typeof UPDATE_TASKS_REQUEST | typeof DELETE_TASKS_REQUEST
 }
 
 export interface TaskFail {
-    type: typeof GET_TASKS_FAIL | typeof ADD_TASKS_FAIL | typeof UPDATE_TASKS_FAIL,
+    type: typeof GET_TASKS_FAIL | typeof ADD_TASKS_FAIL | typeof UPDATE_TASKS_FAIL | typeof DELETE_TASKS_FAIL,
     payload: any
 }
 
@@ -50,10 +53,19 @@ export type AddTaskDispatch = TaskFail | TaskRequest | AddTaskSuccess
 
 //UpdateTask success & Dispatch
 
-export interface updateTaskSuccess {
+export interface UpdateTaskSuccess {
     type: typeof UPDATE_TASKS_SUCCESS,
     payload: ITask
 }
 
 
-export type UpdateTaskDispatch = TaskFail | TaskRequest | updateTaskSuccess
+export type UpdateTaskDispatch = TaskFail | TaskRequest | UpdateTaskSuccess
+
+//DeleteTask success & Dispatch
+
+export interface DeleteTaskSuccess {
+    type: typeof DELETE_TASKS_SUCCESS
+}
+
+
+export type DeleteTaskDispatch = TaskFail | TaskRequest | DeleteTaskSuccess

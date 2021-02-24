@@ -1,6 +1,6 @@
 import axios from 'axios'
 import {Dispatch} from 'redux'
-import { GET_TASKS_REQUEST, GET_TASKS_SUCCESS, GET_TASKS_FAIL, GetTaskDispatch, AddTaskDispatch, ADD_TASKS_SUCCESS, ITask, ADD_TASKS_REQUEST, ADD_TASKS_FAIL , UpdateTaskDispatch, UPDATE_TASKS_REQUEST, UPDATE_TASKS_SUCCESS, UPDATE_TASKS_FAIL} from './TaskActionTypes'
+import { GET_TASKS_REQUEST, GET_TASKS_SUCCESS, GET_TASKS_FAIL, GetTaskDispatch, AddTaskDispatch, ADD_TASKS_SUCCESS, ITask, ADD_TASKS_REQUEST, ADD_TASKS_FAIL , UpdateTaskDispatch, UPDATE_TASKS_REQUEST, UPDATE_TASKS_SUCCESS, UPDATE_TASKS_FAIL, DeleteTaskDispatch, DELETE_TASKS_REQUEST, DELETE_TASKS_SUCCESS, DELETE_TASKS_FAIL} from './TaskActionTypes'
 
 
 export const getTasks = () => async (dispatch: Dispatch<GetTaskDispatch>) => {
@@ -52,6 +52,23 @@ export const updateTasks = (task: ITask) => async (dispatch: Dispatch<UpdateTask
     } catch (error) {
         dispatch({
             type: UPDATE_TASKS_FAIL,
+            payload: error.response.data
+        })
+    }
+}
+
+export const deleteTasks = (id: string) => async (dispatch: Dispatch<DeleteTaskDispatch>) => {
+    try {
+        dispatch({
+            type: DELETE_TASKS_REQUEST
+        })
+        await axios.delete(`/api/tasks/${id}`)
+        dispatch({
+            type: DELETE_TASKS_SUCCESS
+        })
+    } catch (error) {
+        dispatch({
+            type: DELETE_TASKS_FAIL,
             payload: error.response.data
         })
     }
