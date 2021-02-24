@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { Button, Card, Container } from 'react-bootstrap'
+import React, { useEffect, useState } from 'react'
+import { Badge, Button, Card, Container, Form, Modal } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { getTasks } from '../actions/TaskActions'
 import { ITask } from '../actions/TaskActionTypes'
@@ -13,6 +13,23 @@ const TaskList = () => {
     const { tasks} = taskfromStore
     const addTaskFromStore = useSelector((state : RootStore) => state.addTasks)
 
+    const [show, setShow] = useState(false);
+    
+    const [editId, setEditId] = useState<string | undefined>('')
+    const [editName, setEditName] = useState('')
+    const [editDesc, setEditDesc] = useState('')
+
+    const handleClose = () => setShow(false);
+    const handleShow = (task : ITask) => {
+      setShow(true)
+      setEditId(task._id)
+      setEditName(task.name)
+      setEditDesc(task.description)
+    }
+  
+    const onUpdate = () => {
+      console.log('update')
+    }
 
     useEffect(()=> {
         dispatch(getTasks())
@@ -29,10 +46,54 @@ const TaskList = () => {
                   <Card.Text>
                     {task.description}
                   </Card.Text>
-                  <Button variant='outline-success'>Edit</Button>
+                  <div className='d-flex justify-content-between align-items-center'>
+                    { task.status ? 
+                      <div>
+                        <Badge pill className='p-2' variant='success'>Completed</Badge>
+                      </div>
+                    :
+                      <Button variant='outline-success' >Mark as Complete</Button> 
+                    }
+                    
+                    <Button variant='outline-success' onClick={() => handleShow(task)}>Edit</Button>
+                  </div>
                 </Card.Body>
               </Card>
             ))}
+              <Modal show={show} onHide={handleClose} aria-labelledby="contained-modal-title-vcenter"
+                  centered>
+                <Modal.Header closeButton>
+                  <Modal.Title>Edit Task</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <Form.Group>
+                    <Form.Control 
+                      style={{backgroundColor : 'grey'}} 
+                      type="text" 
+                      placeholder="Enter Name" 
+                      value={editName} 
+                      onChange={(e)=> setEditName(e.target.value)}
+                    />
+                    <br />
+                    <Form.Control 
+                      style={{backgroundColor : 'grey'}} 
+                      as='textarea' 
+                      rows={3} 
+                      placeholder="Enter Description" 
+                      value={editDesc}
+                      onChange={(e)=> setEditDesc(e.target.value)}
+                    />
+                  </Form.Group>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button variant="secondary" onClick={handleClose}>
+                    Close
+                  </Button>
+                  <Button variant="primary" onClick={onUpdate}>
+                    Save Changes
+                  </Button>
+                </Modal.Footer>
+              </Modal>
         </Container>
     )
 }
